@@ -1,0 +1,64 @@
+version: '3.1'
+services:
+  elasticsearch:
+    build:
+      context: ./elasticsearch
+      dockerfile: Dockerfile
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - action.auto_create_index=true
+    ports:
+      - '9220:9200'
+      - '9330:9300'
+    volumes:
+      - './data/elastic:/data/elk'
+    networks:
+      my-mongo-cluster:
+        aliases:
+          - elasticsearch
+  kibana:
+    build:
+      context: ./kibana
+      dockerfile: Dockerfile
+    container_name: kibana
+    ports:
+      - '5661:5601'
+    volumes:
+      - './data/elastic:/data/kibana'
+    depends_on:
+      - elasticsearch
+      - mongo1
+      - monstache
+    networks:
+      my-mongo-cluster:
+        aliases:
+          - kibana
+  mongo1:
+    build:
+      context: ./mongo
+      dockerfile: Dockerfile
+    container_name: mongo1
+    ports:
+      - '27017:27017'
+    volumes:
+      - './data/mongo1:/data/db'
+    restart: always
+    networks:
+      my-mongo-cluster:
+        aliases:
+          - mongo1   
+  monstache:
+    build:
+      context: ./monstache
+      dockerfile: Dockerfile
+    container_name: monstache
+    depends_on:
+      - elasticsearch
+      - mongo1
+    networks:
+      my-mongo-cluster:
+        aliases:
+          - monstache
+networks:
+  my-mongo-cluster: null
