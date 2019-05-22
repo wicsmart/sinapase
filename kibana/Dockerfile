@@ -1,2 +1,2 @@
-FROM docker.elastic.co/kibana/kibana:6.2.4
+FROM docker.elastic.co/kibana/kibana:7.1.0
 WORKDIR /app

@@ -14,7 +14,7 @@ services:
     volumes:
       - './data/elastic:/data/elk'
     networks:
-      my-mongo-cluster:
+      sinapse:
         aliases:
           - elasticsearch
   kibana:
@@ -28,26 +28,26 @@ services:
       - './data/elastic:/data/kibana'
     depends_on:
       - elasticsearch
-      - mongo1
+      - mongo
       - monstache
     networks:
-      my-mongo-cluster:
+      sinapse:
         aliases:
           - kibana
-  mongo1:
+  mongo:
     build:
       context: ./mongo
       dockerfile: Dockerfile
-    container_name: mongo1
+    container_name: mongo
     ports:
       - '27017:27017'
     volumes:
-      - './data/mongo1:/data/db'
+      - './data/mongo:/data/db'
     restart: always
     networks:
-      my-mongo-cluster:
+      sinapse:
         aliases:
-          - mongo1   
+          - mongo   
   monstache:
     build:
       context: ./monstache
@@ -55,10 +55,10 @@ services:
     container_name: monstache
     depends_on:
       - elasticsearch
-      - mongo1
+      - mongo
     networks:
-      my-mongo-cluster:
+      sinapse:
         aliases:
           - monstache
 networks:
-  my-mongo-cluster: null
+  sinapse: null
