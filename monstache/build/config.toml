@@ -11,12 +11,12 @@ elasticsearch-urls = ["http://elasticsearch:9200"]
 # e.g. only listen for inserts, updates, deletes, and drops from mydb.mycollection
 # this setting does not initiate a copy, it is a filter on the oplog change listener only
 
-namespace-regex = '^pdo_ddmx_etl\.MONITOR_ROTAS$'
+namespace-regex = '^enel_integrador_etl\.incidencias_calculadas$'
 
 # additionally, if you need to seed an index from a collection and not just listen for changes from the oplog
 # you can copy entire collections or views from MongoDB to Elasticsearch
 
-direct-read-namespaces = ["pdo_ddmx_etl.MONITOR_ROTAS"]
+direct-read-namespaces = ["enel_integrador_etl.incidencias_calculadas"]
 
 # if you want to use MongoDB change streams instead of legacy oplog tailing add the following
 # in this case you don't need regexes to filter collections.
@@ -29,14 +29,14 @@ direct-read-namespaces = ["pdo_ddmx_etl.MONITOR_ROTAS"]
 # mesmo que seja de uma unica instancia
 # iniciar o Dockerfile do mongo com CMD ["/usr/bin/mongod" , "--dbpath", "/data/db" ,  "--replSet" , "rs0" , "--bind_ip_all"]
 # rodar rs.initiate() no mongo shell
-change-stream-namespaces = ["pdo_ddmx_etl.MONITOR_ROTAS"]
+change-stream-namespaces = ["enel_integrador_etl.incidencias_calculadas"]
 
 
 
 
 [[mapping]]
-namespace = "pdo_ddmx_etl.MONITOR_ROTAS"
-index = "monitor_rotas"
+namespace = "enel_integrador_etl.incidencias_calculadas"
+index = "incidencia"
 type = "_doc"
 
 
